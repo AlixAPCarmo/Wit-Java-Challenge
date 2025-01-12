@@ -39,7 +39,23 @@ REST Module
 - Spring Boot Starter Web: Enables building RESTful APIs.
 - Spring Kafka: Configured for Kafka producer/consumer communication.
 - Calculator Module: Included as a dependency to access arithmetic logic.
-- 
+
+# Known Issues
+## Kafka Connection Issue
+
+The application currently encounters issues with Kafka connectivity. Specifically:
+
+  - Consumers and producers cannot establish connections to the Kafka broker.
+- Topics, although listed in Kafka, are not recognized by the Spring application.
+
+Steps Taken to Resolve
+
+  - Verified Kafka broker status using kafka-broker-api-versions.sh.
+    - Confirmed topics exist using kafka-topics.sh.
+    - Tested connectivity between the containers (ping kafka was successful).
+   
+Because of this issue the project will return error 500. 
+
 # File Structure
 
     Challenge/
@@ -132,11 +148,17 @@ This will:
 
 ## Step 4: Run the Application
 
-Navigate to the rest module directory:
+Navigate to the rest module directory in CLI:
 
-    cd rest
-    mvn spring-boot:run
-    
+    docker-compose build -d 
+
+To turn it off run:
+
+     docker-compose down -v
+
+to run it again run:
+
+    docker-compose up -d
 ## Step 5: Test the API
 
 Use tools like Postman or cURL to test the REST API endpoints.
@@ -150,26 +172,16 @@ Expected response:
       "result": 15
     }
 
-Current Functionality
-
-- Arithmetic Operations:
-    Addition, subtraction, multiplication, and division are implemented in the calculator module.
-    Exposed as RESTful endpoints via the rest module.
-
-- Structure:
-    Modular architecture with a clean separation between logic and API layers.
-
-- Unit Tests:
-    Tests for arithmetic operations are written in the calculator module.
 
 # Future Enhancements
 
 - Kafka Integration:
-    Use Kafka for communication between rest and calculator modules.
+    Use and fix issues with Kafka for communication between rest and calculator modules.
 - Docker Support:
-    Add Docker configuration for easy deployment.
+    Improve Docker configuration for easy deployment.
 - Improved Error Handling:
     Extend exception handling for invalid inputs and edge cases.
+- Improve and implement logging and error reporting with SLF4J.
 
 # Known Issues
 
